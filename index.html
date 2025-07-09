@@ -2,11 +2,11 @@
 <html lang="ar">
 <head>
   <meta charset="UTF-8">
-  <title>تحميل صورة أو التقاط بالكاميرا</title>
+  <title>رفع صورة أو التقاط بالكاميرا</title>
   <style>
     body {
       font-family: Arial;
-      background-color: #f9f9f9;
+      background-color: #f0f0f0;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -35,7 +35,7 @@
     }
 
     button {
-      background-color: #007bff;
+      background-color: #28a745;
       color: white;
       border: none;
       padding: 12px;
@@ -45,16 +45,16 @@
     }
 
     button:hover {
-      background-color: #0056b3;
+      background-color: #218838;
     }
   </style>
 </head>
 <body>
 
-  <form action="https://formcarry.com/s/pHHZOWhpgsB" method="POST" enctype="multipart/form-data">
-    <label for="image">اختر صورة أو استخدم الكاميرا:</label>
+  <form action="https://formspree.io/f/xyzjqzpo" method="POST" enctype="multipart/form-data">
+    <label for="image">اختر صورة أو التقطها بالكاميرا:</label>
     <input type="file" name="image" id="image" accept="image/*" capture="environment" required>
-    
+
     <button type="submit">إرسال الصورة</button>
   </form>
 
